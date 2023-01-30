@@ -20,7 +20,7 @@ const GracefulShutdownManage =
 const bodyParser = require("body-parser");
 
 // Create https server
-var httpServer = https.createServer(app);
+var httpServer = http.createServer(app);
 
 // Manage graceful shutdown
 const httpShutdownManager = new GracefulShutdownManage(httpServer);
