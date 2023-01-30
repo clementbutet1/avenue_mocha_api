@@ -75,14 +75,15 @@ app.use(
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://avenuemochaseculavalweb.herokuapp.com/",
-    credentials: true,
+    // origin: "https://avenuemochaseculavalweb.herokuapp.com/",
+    // credentials: true,
   })
 );
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(__dirname + "/public/favicon.ico"));
 app.get("/", function (req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
   res.status(200).sendFile(path.join(__dirname + "/views/start.html"));
 });
 
