@@ -14,16 +14,16 @@ const session = require("express-session");
 const proxy = require("proxy-attack");
 const path = require("path");
 const favicon = require("serve-favicon");
-const GracefulShutdownManage =
-  require("@moebius/http-graceful-shutdown").GracefulShutdownManager;
+// const GracefulShutdownManage =
+//   require("@moebius/http-graceful-shutdown").GracefulShutdownManager;
 
 const bodyParser = require("body-parser");
 
 // Create https server
-var httpServer = http.createServer(app);
+// var httpServer = http.createServer(app);
 
 // Manage graceful shutdown
-const httpShutdownManager = new GracefulShutdownManage(httpServer);
+// const httpShutdownManager = new GracefulShutdownManage(httpServer);
 
 // Routes
 const userRoute = require("./routes/users");
@@ -119,7 +119,7 @@ mongoose
   .catch((err) => console.log(err));
 
 // Start server
-httpServer.listen(process.env.PORT);
+app.listen(process.env.PORT);
 console.log(`Server running on https://localhost:${process.env.PORT}`);
 
 // Intercept Segmentation Fault for graceful shutdown
