@@ -17,11 +17,10 @@ const favicon = require("serve-favicon");
 const GracefulShutdownManage =
   require("@moebius/http-graceful-shutdown").GracefulShutdownManager;
 
-const morgan = require("morgan");
 const bodyParser = require("body-parser");
 
 // Create https server
-var httpServer = http.createServer(app);
+var httpServer = https.createServer(app);
 
 // Manage graceful shutdown
 const httpShutdownManager = new GracefulShutdownManage(httpServer);
