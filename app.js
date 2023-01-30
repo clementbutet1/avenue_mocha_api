@@ -8,8 +8,6 @@ const xss = require("xss-clean");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
-// const proxy = require("proxy-attack");
 const path = require("path");
 const favicon = require("serve-favicon");
 
@@ -27,16 +25,6 @@ const limit = rateLimit({
 });
 
 app.disable("x-powered-by");
-// Blocking Proxy attacks
-// app.use(proxy());
-// Session Management
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET_KEY,
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
 // Data Sanitization against XSS attacks
 app.use(xss());
 // Helmet
@@ -75,7 +63,6 @@ app.use(
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://avenuemochaseculavalweb.herokuapp.com/",
     credentials: true,
   })
 );
