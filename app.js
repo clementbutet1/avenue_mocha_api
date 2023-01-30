@@ -123,8 +123,8 @@ app.listen(process.env.PORT);
 console.log(`Server running on https://localhost:${process.env.PORT}`);
 
 // Intercept Segmentation Fault for graceful shutdown
-process.on("SIGTERM", () => {
-  httpShutdownManager.terminate(() => {
-    console.log("Server closing.");
-  });
-});
+// process.on("SIGTERM", () => {
+//   httpShutdownManager.terminate(() => {
+//     console.log("Server closing.");
+//   });
+// });
