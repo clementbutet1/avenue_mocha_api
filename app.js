@@ -74,7 +74,6 @@ let limit_depth = (obj, current_depth, limit) => {
 };
 
 // MIDDLEWARE
-app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "100mb" }));
 app.use(
   bodyParser.urlencoded({
