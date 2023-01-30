@@ -75,7 +75,7 @@ app.use(
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.URL_FRONT,
+    origin: "https://avenuemochaseculavalweb.herokuapp.com/",
     credentials: true,
   })
 );
