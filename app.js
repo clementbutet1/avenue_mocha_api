@@ -12,6 +12,7 @@ const session = require("express-session");
 const proxy = require("proxy-attack");
 const path = require("path");
 const favicon = require("serve-favicon");
+const httpProxy = require('http-proxy');
 
 const bodyParser = require("body-parser");
 
@@ -76,7 +77,7 @@ app.use(cookieParser());
 app.use(
   cors({
     // origin: "https://avenuemochaseculavalweb.herokuapp.com/",
-    // credentials: true,
+    credentials: true,
   })
 );
 
@@ -102,13 +103,13 @@ app.use(function (req, res) {
 
 // MongoDB connection
 mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB is live"))
-  .catch((err) => console.log(err));
+.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB is live"))
+.catch((err) => console.log(err));
 
 // Start server
-app.listen(process.env.PORT);
+httpProxy.createProxyServer({target:'https://avenuemochaseculavalweb.herokuapp.com'}).listen(8000);
 console.log(`Server running on https://localhost:${process.env.PORT}`);
