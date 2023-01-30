@@ -1,6 +1,4 @@
 require("dotenv").config();
-const http = require("http");
-const https = require("https");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -14,16 +12,8 @@ const session = require("express-session");
 const proxy = require("proxy-attack");
 const path = require("path");
 const favicon = require("serve-favicon");
-// const GracefulShutdownManage =
-//   require("@moebius/http-graceful-shutdown").GracefulShutdownManager;
 
 const bodyParser = require("body-parser");
-
-// Create https server
-// var httpServer = http.createServer(app);
-
-// Manage graceful shutdown
-// const httpShutdownManager = new GracefulShutdownManage(httpServer);
 
 // Routes
 const userRoute = require("./routes/users");
@@ -121,10 +111,3 @@ mongoose
 // Start server
 app.listen(process.env.PORT);
 console.log(`Server running on https://localhost:${process.env.PORT}`);
-
-// Intercept Segmentation Fault for graceful shutdown
-// process.on("SIGTERM", () => {
-//   httpShutdownManager.terminate(() => {
-//     console.log("Server closing.");
-//   });
-// });
