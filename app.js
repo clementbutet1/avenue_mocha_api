@@ -66,6 +66,14 @@ app.use(
   cors({
     origin: process.env.URL_FRONT,
     credentials: true,
+    allowedHeaders: [
+      "Content-Type",
+      "Accept",
+      "Origin",
+      "X-Requested-With",
+      "Authorization",
+      "Set-Cookie",
+    ],
   })
 );
 
