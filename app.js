@@ -11,7 +11,6 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const favicon = require("serve-favicon");
 const session = require("express-session");
-
 const bodyParser = require("body-parser");
 
 // Routes
