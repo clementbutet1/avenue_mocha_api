@@ -74,10 +74,6 @@ app.use(
     secret: process.env.SESSION_SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    // cookie: {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "development" ? false : true,
-    // },
   })
 );
 

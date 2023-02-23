@@ -57,18 +57,15 @@ const getToken = async (user, res) => {
     { expiresIn: "1d" }
   );
   res
-  // .cookie("token", token, {
-  //   httpOnly: true,
-  //   secure: process.env.NODE_ENV === "development" ? false : true,
-  // })
+  .cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "development" ? false : true,
+  })
   .set("Set-Cookie", `token=${token}; HttpOnly`)
-  .send({
+  .json({
     message: "Auth successful",
     user,
     token: token,
-  }).catch((error) => {
-    console.log(error);
-    res.status(500).json({ error });
   });
 };
 
