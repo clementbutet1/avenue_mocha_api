@@ -71,9 +71,9 @@ app.use(
 );
 
 app.use(session({
-  secret: process.env.SESSION_SECRET_KEY, // Clé secrète pour signer le cookie de session
-  resave: false, // Forces le cookie de session à être sauvegardé à chaque requête, même si elle n'a pas été modifiée
-  saveUninitialized: true // Force à sauvegarder un cookie de session vide lorsqu'il n'existe pas encore de session
+  secret: process.env.SESSION_SECRET_KEY, 
+  resave: false, 
+  saveUninitialized: true
 }));
 
 app.use(express.static(path.join(__dirname, "public")));
