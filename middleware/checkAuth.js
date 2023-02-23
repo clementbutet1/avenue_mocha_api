@@ -12,8 +12,7 @@ const catchError = (err, res) => {
 };
 
 module.exports = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  const token = req.cookies.token;
   try {
     if (!token) {
       return res.status(403).send({ message: "No token provided !" });
