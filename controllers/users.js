@@ -15,6 +15,7 @@ const createUser = async (req, res) => {
       email: req.body.email,
       password: hash,
       username: req.body.username,
+      phone: req.body.phone,
     });
     user.save()
       .then(() => res.status(201).json({ message: 'User created' }))
