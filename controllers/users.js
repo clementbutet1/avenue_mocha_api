@@ -56,12 +56,14 @@ const getToken = async (user, res) => {
     process.env.JWT_SECRET,
     { expiresIn: "1d" }
   );
+  req.session.token = token;
   res
-  .cookie("token", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "development" ? false : true,
-  })
-  .set("Set-Cookie", `token=${token}; HttpOnly`)
+  // .cookie("token", token, {
+  //   httpOnly: true,
+  //   secure: process.env.NODE_ENV === "development" ? false : true,
+  // })
+  // .set("Set-token", `token=${token}; HttpOnly`)
+
   .json({
     message: "Auth successful",
     user,
@@ -99,7 +101,7 @@ const update = async (req, res) => {
 };
 
 const autoLogin = async (req, res) => {
-  const token = req.cookies.token;
+  const token = req.session.token;
   try {
     if (!token) {
       return res.status(200).send({ message: "No token provided !" });
