@@ -30,6 +30,7 @@ app.disable("x-powered-by");
 app.use(xss());
 // Helmet
 app.use(helmet());
+
 // Data Sanitization against NoSQL Injection Attacks
 app.use(mongoSanitize());
 // Body Parser
