@@ -71,10 +71,10 @@ app.use(
   })
 );
 
-app.use(secureCookieMiddleware({
-  sameSite: 'none', // Utiliser 'none' pour les cookies cross-domain
-  secure: true // Utiliser HTTPS pour les cookies sécurisés
-}));
+// app.use(secureCookieMiddleware({
+//   sameSite: process.env.URL_FRONT, 
+//   secure: true // Utiliser HTTPS pour les cookies sécurisés
+// }));
 
 app.use(
   session({
