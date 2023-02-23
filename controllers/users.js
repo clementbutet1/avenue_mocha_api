@@ -34,6 +34,7 @@ const login = async (req, res) => {
           if (!valid) {
             return res.status(203).json({ error: 'Password incorrect' });
           }
+          req.session.user = user;
           return (getToken(user, res));
         })
         .catch(error => res.status(500).json({ error }));
@@ -44,9 +45,6 @@ const login = async (req, res) => {
 const getToken = async (user, res) => {
   const token = jwt.sign({
     email: user.email,
-    _id: user._id,
-    username: user.username,
-    phone: user.phone,
   },
     process.env.JWT_SECRET,
     { expiresIn: "1d" }
@@ -82,7 +80,9 @@ const update = async (req, res) => {
       { _id: req.params.user_id },
       { $set: data }
     ).exec();
-    res.status(200).json(req.body);
+    const user = await UserModel.find({ _id: req.params.user_id });
+    req.session.user = user[0];
+    res.status(200).json(user[0]);
   } catch (error) {
     res.status(500).json({ message: error });
   }
@@ -96,10 +96,11 @@ const autoLogin = async (req, res) => {
     }
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
+        req.session.destroy()
         return res.status(200).send({ message: "No token provided !" });
       }
       req.userData = decoded;
-      return res.status(200).json({message: "Auto Login success", user: req.userData});
+      return res.status(200).json({message: "Auto Login success", user: req.session.user});
     });
   } catch (error) {
     return res.status(500).send({ error: error });
@@ -107,6 +108,7 @@ const autoLogin = async (req, res) => {
 };
 
 const logout = async (req, res) => {
+  req.session.destroy()
   res.clearCookie('token', { httpOnly: true })
   .status(200).json({message: "Disconnect success"});
 };
