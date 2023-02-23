@@ -56,14 +56,19 @@ const getToken = async (user, res) => {
     process.env.JWT_SECRET,
     { expiresIn: "1d" }
   );
-  // res.cookie("token", token, {
-  //     httpOnly: true,
-  //     secure: process.env.NODE_ENV === "development" ? false : true,
-  //   })
-  res.set("Set-Cookie", `token=${token}; HttpOnly`).json({
+  res
+  // .cookie("token", token, {
+  //   httpOnly: true,
+  //   secure: process.env.NODE_ENV === "development" ? false : true,
+  // })
+  .set("Set-Cookie", `token=${token}; HttpOnly`)
+  .send({
     message: "Auth successful",
     user,
     token: token,
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).json({ error });
   });
 };
 
