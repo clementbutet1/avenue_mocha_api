@@ -39,7 +39,7 @@ const login = async (req, res) => {
             return res.status(203).json({ error: "Password incorrect" });
           }
           req.session.user = user;
-          return getToken(user, res);
+          return getToken(user, res, req);
         })
         .catch((error) => res.status(500).json({ error }));
     })
@@ -48,7 +48,7 @@ const login = async (req, res) => {
     });
 };
 
-const getToken = async (user, res) => {
+const getToken = async (user, res, req) => {
   const token = jwt.sign(
     {
       email: user.email,
@@ -57,14 +57,13 @@ const getToken = async (user, res) => {
     { expiresIn: "1d" }
   );
   req.session.token = token;
-  res
   // .cookie("token", token, {
   //   httpOnly: true,
   //   secure: process.env.NODE_ENV === "development" ? false : true,
   // })
   // .set("Set-token", `token=${token}; HttpOnly`)
 
-  .json({
+  res.json({
     message: "Auth successful",
     user,
     token: token,
