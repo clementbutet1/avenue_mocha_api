@@ -50,7 +50,7 @@ const getToken = async (user, res) => {
     { expiresIn: "1d" }
   );
   res
-  .cookie('token', token, {httpOnly: true, secure: true, sameSite: 'strict', domain: process.env.URL_FRONT, path: '/'} )
+  .cookie('token', token, {httpOnly: true, secure: true, domain: process.env.URL_FRONT, path: '/'} )
   .json({
         message: "Auth successful",
         user,
