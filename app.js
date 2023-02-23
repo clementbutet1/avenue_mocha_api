@@ -11,7 +11,6 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const favicon = require("serve-favicon");
 const session = require("express-session");
-const secureCookieMiddleware = require('secure-cookie').middleware;
 
 const bodyParser = require("body-parser");
 
@@ -70,11 +69,6 @@ app.use(
     credentials: true,
   })
 );
-
-// app.use(secureCookieMiddleware({
-//   sameSite: process.env.URL_FRONT, 
-//   secure: true // Utiliser HTTPS pour les cookies sécurisés
-// }));
 
 app.use(
   session({
