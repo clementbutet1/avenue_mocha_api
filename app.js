@@ -64,16 +64,8 @@ app.use(
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.URL_FRONT,
+    // origin: process.env.URL_FRONT,
     credentials: true,
-    allowedHeaders: [
-      "Content-Type",
-      "Accept",
-      "Origin",
-      "X-Requested-With",
-      "Authorization",
-      "Set-Cookie",
-    ],
   })
 );
 
@@ -95,6 +87,9 @@ app.get("/", function (req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.status(200).sendFile(path.join(__dirname + "/views/start.html"));
 });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Essential routes for apis
 app.use("/api/user", userRoute, limit);

@@ -59,8 +59,6 @@ const getToken = async (user, res) => {
   res
     .cookie("token", token, {
       httpOnly: true,
-      sameSite: "none",
-      domain: process.env.URL_FRONT,
       secure: process.env.NODE_ENV === "development" ? false : true,
     })
     .json({
