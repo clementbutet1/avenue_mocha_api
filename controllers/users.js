@@ -50,7 +50,7 @@ const getToken = async (user, res) => {
     { expiresIn: "1d" }
   );
   res
-  .cookie('token', token, {httpOnly: true} )
+  .cookie('token', token, {httpOnly: true, secure: true} )
   .json({
         message: "Auth successful",
         user,
