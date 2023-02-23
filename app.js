@@ -10,7 +10,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const favicon = require("serve-favicon");
-const session = require('express-session');
+const session = require("express-session");
 
 const bodyParser = require("body-parser");
 
@@ -70,11 +70,17 @@ app.use(
   })
 );
 
-app.use(session({
-  secret: process.env.SESSION_SECRET_KEY, 
-  resave: false, 
-  saveUninitialized: true
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET_KEY,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV,
+    },
+  })
+);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(__dirname + "/public/favicon.ico"));
