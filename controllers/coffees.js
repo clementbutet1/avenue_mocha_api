@@ -1,14 +1,21 @@
 require("dotenv").config();
 const _ = require("lodash");
 const CoffeesModel = require("../models/coffees");
+const { body, validationResult } = require('express-validator');
+const escape = require('escape-html');
 
 const createCoffee = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(422).json({ errors: errors.array() });
+    return;
+  }
   const coffee = new CoffeesModel({
-    creator: req.body.creator,
-    title: req.body.title,
-    sugar: req.body.sugar,
-    caffeine: req.body.caffeine,
-    quantity: req.body.quantity,
+    creator: escape(req.body.creator),
+    title: escape(req.body.title),
+    sugar: escape(req.body.sugar),
+    caffeine: escape(req.body.caffeine),
+    quantity: escape(req.body.quantity),
   });
   coffee
     .save()
@@ -18,6 +25,11 @@ const createCoffee = async (req, res) => {
 
 const getAllCoffees = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
     let coffees = await CoffeesModel.find();
     res.status(200).json(coffees);
   } catch (error) {
@@ -27,6 +39,11 @@ const getAllCoffees = async (req, res) => {
 
 const update = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
     let data = {
       ...req.body,
       updatedAt: Date.now(),
@@ -44,6 +61,11 @@ const update = async (req, res) => {
 
 const getCoffeeById = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
     const coffee = await CoffeesModel.find({ _id: req.params._id });
     res.status(200).json(coffee);
   } catch (error) {

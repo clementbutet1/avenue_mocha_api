@@ -3,8 +3,15 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 const UserModel = require("../models/users");
+const { body, validationResult } = require('express-validator');
+const escape = require('escape-html');
 
 const createUser = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(422).json({ errors: errors.array() });
+    return;
+  }
   const existingUser = await UserModel.find({ email: req.body.email });
   if (existingUser.length !== 0) {
     return res.status(203).json({ error: "The user already exist" });
@@ -13,10 +20,10 @@ const createUser = async (req, res) => {
     .hash(req.body.password, 10)
     .then((hash) => {
       const user = new UserModel({
-        email: req.body.email,
+        email: escape(req.body.email),
         password: hash,
-        username: req.body.username,
-        phone: req.body.phone,
+        username: escape(req.body.username),
+        phone: escape(req.body.phone),
       });
       user
         .save()
@@ -27,6 +34,12 @@ const createUser = async (req, res) => {
 };
 
 const login = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(422).json({ errors: errors.array() });
+    return;
+  }
+
   UserModel.findOne({ email: req.body.email })
     .then((user) => {
       if (!user) {
@@ -57,12 +70,6 @@ const getToken = async (user, res, req) => {
     { expiresIn: "1d" }
   );
   req.session.token = token;
-  // .cookie("token", token, {
-  //   httpOnly: true,
-  //   secure: process.env.NODE_ENV === "development" ? false : true,
-  // })
-  // .set("Set-token", `token=${token}; HttpOnly`)
-
   res.json({
     message: "Auth successful",
     user,
@@ -72,6 +79,12 @@ const getToken = async (user, res, req) => {
 
 const getUserById = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     const user = await UserModel.find({ _id: req.params.user_id });
     res.status(200).json(user);
   } catch (error) {
@@ -81,6 +94,12 @@ const getUserById = async (req, res) => {
 
 const update = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     let data = {
       ...req.body,
       updatedAt: Date.now(),
@@ -102,6 +121,12 @@ const update = async (req, res) => {
 const autoLogin = async (req, res) => {
   const token = req.session.token;
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     if (!token) {
       return res.status(200).send({ message: "No token provided !" });
     }
@@ -121,6 +146,12 @@ const autoLogin = async (req, res) => {
 };
 
 const logout = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(422).json({ errors: errors.array() });
+    return;
+  }
+
   req.session.destroy();
   res
     .clearCookie("token", { httpOnly: true })
