@@ -12,7 +12,7 @@ const path = require("path");
 const favicon = require("serve-favicon");
 const session = require("express-session");
 const bodyParser = require("body-parser");
-const morgan = require('morgan');
+const morgan = require("morgan");
 
 // Routes
 const userRoute = require("./routes/users");
@@ -67,26 +67,26 @@ app.use(
 // Cookie Parser
 app.use(cookieParser());
 
+console.log("proxy good");
+console.log(process.env.NODE_ENV === "development" ? "lax" : "none");
 // if (process.env.NODE_ENV !== "development") {
-  console.log("proxy good");
-  console.log(process.env.NODE_ENV === "development" ? "lax" : "none");
-  app.set('trust proxy', 1) // trust first proxy
+app.set("trust proxy", 1); // trust first proxy
 // }
 
 app.use(
   session({
-    name: 'sessionId',
+    name: "sessionId",
     secret: process.env.SESSION_SECRET_KEY,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
       sameSite: "none",
       secure: true,
       // sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
       // secure: ((process.env.NODE_ENV === "development") ? false : true),
       httpOnly: true,
-      expires: (new Date(Date.now() + 60 * 60 * 1000)),
-    }
+      expires: new Date(Date.now() + 60 * 60 * 1000),
+    },
   })
 );
 
@@ -126,7 +126,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("MongoDB is live"))
+  .then(() => console.log("MongoDB is live lol"))
   .catch((err) => console.log(err));
 
 // Start server
