@@ -78,8 +78,6 @@ app.use(
     resave: true,
     saveUninitialized: true,
     cookie: {
-      // sameSite: "none",
-      // secure: true,
       sameSite: ((process.env.NODE_ENV === "development") ? "lax" : "none"),
       secure: ((process.env.NODE_ENV === "development") ? false : true),
       httpOnly: true,
@@ -87,9 +85,6 @@ app.use(
     },
   })
 );
-
-console.log((process.env.NODE_ENV === "development") ? "lax" : "none")
-console.log(((process.env.NODE_ENV === "development") ? false : true))
 
 app.use(
   cors({
