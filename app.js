@@ -69,6 +69,7 @@ app.use(cookieParser());
 
 if (process.env.NODE_ENV !== "development") {
   console.log("proxy good");
+  console.log(process.env.NODE_ENV === "development" ? "lax" : "none");
   app.set('trust proxy', 1) // trust first proxy
 }
 
