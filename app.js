@@ -12,6 +12,7 @@ const path = require("path");
 const favicon = require("serve-favicon");
 const session = require("express-session");
 const bodyParser = require("body-parser");
+const morgan = require('morgan');
 
 // Routes
 const userRoute = require("./routes/users");
@@ -29,6 +30,9 @@ app.disable("x-powered-by");
 app.use(xss());
 // Helmet
 app.use(helmet());
+
+// adding morgan to log HTTP requests
+// app.use(morgan('combined'));
 
 // Data Sanitization against NoSQL Injection Attacks
 app.use(mongoSanitize());
@@ -69,11 +73,21 @@ app.use(
   })
 );
 
+if (process.env.NODE_ENV !== "development") {
+  app.set('trust proxy', 1) // trust first proxy
+}
+
 app.use(
   session({
+    name: 'sessionId',
     secret: process.env.SESSION_SECRET_KEY,
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      secure: ((process.env.NODE_ENV === "development") ? false : true),
+      httpOnly: true,
+      expires: (new Date(Date.now() + 60 * 60 * 1000)),
+    }
   })
 );
 
