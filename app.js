@@ -67,11 +67,11 @@ app.use(
 // Cookie Parser
 app.use(cookieParser());
 
-if (process.env.NODE_ENV !== "development") {
+// if (process.env.NODE_ENV !== "development") {
   console.log("proxy good");
   console.log(process.env.NODE_ENV === "development" ? "lax" : "none");
   app.set('trust proxy', 1) // trust first proxy
-}
+// }
 
 app.use(
   session({
@@ -80,8 +80,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-      secure: ((process.env.NODE_ENV === "development") ? false : true),
+      sameSite: "none",
+      secure: true,
+      // sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
+      // secure: ((process.env.NODE_ENV === "development") ? false : true),
       httpOnly: true,
       expires: (new Date(Date.now() + 60 * 60 * 1000)),
     }
