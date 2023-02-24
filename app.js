@@ -68,6 +68,7 @@ app.use(
 app.use(cookieParser());
 
 if (process.env.NODE_ENV !== "development") {
+  console.log("proxy good");
   app.set('trust proxy', 1) // trust first proxy
 }
 
@@ -78,6 +79,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
+      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
       secure: ((process.env.NODE_ENV === "development") ? false : true),
       httpOnly: true,
       expires: (new Date(Date.now() + 60 * 60 * 1000)),
