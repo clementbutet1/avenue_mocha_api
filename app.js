@@ -76,7 +76,7 @@ app.use(
     name: 'sessionId',
     secret: process.env.SESSION_SECRET_KEY,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       secure: ((process.env.NODE_ENV === "development") ? false : true),
       httpOnly: true,
