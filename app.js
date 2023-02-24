@@ -66,12 +66,6 @@ app.use(
 );
 // Cookie Parser
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: process.env.URL_FRONT,
-    credentials: true,
-  })
-);
 
 if (process.env.NODE_ENV !== "development") {
   app.set('trust proxy', 1) // trust first proxy
@@ -88,6 +82,13 @@ app.use(
       httpOnly: true,
       expires: (new Date(Date.now() + 60 * 60 * 1000)),
     }
+  })
+);
+
+app.use(
+  cors({
+    origin: process.env.URL_FRONT,
+    credentials: true,
   })
 );
 
