@@ -67,9 +67,11 @@ app.use(
 // Cookie Parser
 app.use(cookieParser());
 
-if (process.env.NODE_ENV !== "development") {
-  app.set("trust proxy", 1); // trust first proxy
-}
+console.log("proxy good");
+console.log(process.env.NODE_ENV === "development" ? "lax" : "none");
+// if (process.env.NODE_ENV !== "development") {
+app.set("trust proxy", 1); // trust first proxy
+// }
 
 app.use(
   session({
@@ -78,8 +80,10 @@ app.use(
     resave: true,
     saveUninitialized: true,
     cookie: {
-      sameSite: ((process.env.NODE_ENV === "development") ? "lax" : "none"),
-      secure: ((process.env.NODE_ENV === "development") ? false : true),
+      sameSite: "none",
+      secure: true,
+      // sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
+      // secure: ((process.env.NODE_ENV === "development") ? false : true),
       httpOnly: true,
       expires: new Date(Date.now() + 60 * 60 * 1000),
     },
@@ -122,7 +126,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("MongoDB is live"))
+  .then(() => console.log("MongoDB is live lol"))
   .catch((err) => console.log(err));
 
 // Start server
